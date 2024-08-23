@@ -22,8 +22,8 @@ const Navbar = () => {
           <IoIosSearch size={"24px"} className="text-gray-700" />
           <input
             type="text"
-            className="rounded-full w-full bg-transparent outline-none px-1"
             placeholder="Search mail"
+            className="rounded-full w-full bg-transparent outline-none px-1"
           />
         </div>
       </div>
