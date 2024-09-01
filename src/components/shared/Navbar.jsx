@@ -1,10 +1,18 @@
-import Avatar from 'react-avatar';
-import { CiCircleQuestion, CiSettings } from 'react-icons/ci';
+import { useEffect, useState } from 'react';
+import Avatar from "react-avatar";
+import { CiCircleQuestion, CiSettings } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
-import { PiDotsNineBold } from 'react-icons/pi';
+import { PiDotsNineBold } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useDispatch } from 'react-redux';
+import { setSearchText } from '../../redux/appSlice';
 
 const Navbar = () => {
+  const [input, setInput] = useState("")
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(setSearchText(input))
+  },[input])
   return (
     <div className="flex items-center justify-between mx-3 h-16">
       <div className="flex items-center gap-10">
@@ -24,6 +32,8 @@ const Navbar = () => {
         <div className="flex items-center bg-[#EAF1FB] px-2 py-3 rounded-full">
           <IoIosSearch size={"24px"} className="text-gray-700" />
           <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
             type="text"
             placeholder="Search mail"
             className="rounded-full w-full bg-transparent outline-none px-1"
@@ -33,16 +43,20 @@ const Navbar = () => {
       <div className="md:block hidden ">
         <div className="flex items-center gap-2">
           <div className="p-3 rounded-full hover:bg-gray-100 cursor-pointer">
-            <CiCircleQuestion size={"24px"}/>
+            <CiCircleQuestion size={"24px"} />
           </div>
           <div className="p-3 rounded-full hover:bg-gray-100 cursor-pointer">
-            <CiSettings size={"24px"}/>
+            <CiSettings size={"24px"} />
           </div>
           <div className="p-3 rounded-full hover:bg-gray-100 cursor-pointer">
-            <PiDotsNineBold size={"24px"}/>
+            <PiDotsNineBold size={"24px"} />
           </div>
-          <div className='cursor-pointer'>
-            <Avatar src='https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg' size='40' round={true}/>
+          <div className="cursor-pointer">
+            <Avatar
+              src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg"
+              size="40"
+              round={true}
+            />
           </div>
         </div>
       </div>
