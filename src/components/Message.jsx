@@ -1,15 +1,23 @@
 import { MdCropSquare } from "react-icons/md";
 import { RiStarLine } from "react-icons/ri";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import {  setselectedMail } from '../redux/appSlice';
+import { motion } from 'framer-motion';
 
-const Message = () => {
+const Message = ({email}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const openMail = () => {
-    navigate("/mail/12364r6734r");
+    dispatch(setselectedMail(email))
+    navigate(`/mail/${email.id}`);
   };
 
   return (
-    <div
+    <motion.div
+    initial={{opacity:0, y:20}}
+    animate={{opacity:1, y:0}}
+    transition={{duration:0.5}}
       onClick={openMail}
       className="flex items-start justify-between border-b border-gray-200 px-4 text-sm hover:cursor-pointer hover:shadow-md py-3"
     >
@@ -23,12 +31,15 @@ const Message = () => {
       </div>
       <div className="flex-1 ml-4">
         <p className="text-gray-600 truncate inline-block max-w-full">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse alias
-          doloremque in numquam minus ea.
+         {email?.message}
         </p>
       </div>
-      <div className="flex-none text-gray-400 text-sm">time ayega</div>
-    </div>
+      <div className="flex-none text-gray-400 text-sm">
+        <p>
+        {new Date(email?.createdAt?.seconds*1000).toUTCString()}
+        </p>
+        </div>
+    </motion.div>
   );
 };
 export default Message;
