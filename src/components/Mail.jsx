@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { IoMdMore, IoMdArrowBack } from "react-icons/io";
+import { motion } from "framer-motion";
 import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
@@ -11,25 +12,29 @@ import {
   MdOutlineDriveFileMove,
 } from "react-icons/md";
 import { BiArchiveIn } from "react-icons/bi";
-import { useSelector } from 'react-redux';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { useSelector } from "react-redux";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Mail = () => {
   const navigate = useNavigate();
-  const params = useParams()
-  const {selectedMail} = useSelector(store=>store.appSlice)
-  const deleteMailById = async(id) => {
-    try{
-      await deleteDoc(doc(db, "emails", id))
-      navigate("/")
-    }catch(error){
+  const params = useParams();
+  const { selectedMail } = useSelector((store) => store.appSlice);
+  const deleteMailById = async (id) => {
+    try {
+      await deleteDoc(doc(db, "emails", id));
+      navigate("/");
+    } catch (error) {
       console.log(error);
-      
     }
-  }
+  };
   return (
-    <div className="flex-1 bg-white rounded-xl mx-5">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex-1 bg-white rounded-xl mx-5"
+    >
       <div className="flex items-center justify-between px-4">
         <div className="flex items-center gap-2 text-gray-700 py-2">
           <div
@@ -44,7 +49,10 @@ const Mail = () => {
           <div className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
             <MdOutlineReport size={"20px"} />
           </div>
-          <div  onClick={()=>deleteMailById(params.id)} className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
+          <div
+            onClick={() => deleteMailById(params.id)}
+            className="p-2 rounded-full hover:bg-gray-100 cursor-pointer"
+          >
             <MdDeleteOutline size={"20px"} />
           </div>
           <div className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
@@ -79,7 +87,9 @@ const Mail = () => {
             <span className="text-sm bg-gray-200 rounded-md px-2">inbox</span>
           </div>
           <div className="flex-none text-gray-400 my-5 text-sm">
-            <p>{new Date(selectedMail?.createdAt?.seconds*1000).toUTCString()}</p>
+            <p>
+              {new Date(selectedMail?.createdAt?.seconds * 1000).toUTCString()}
+            </p>
           </div>
         </div>
         <div className="text-gray-500 text-sm">
@@ -90,7 +100,7 @@ const Mail = () => {
           <p>{selectedMail?.message}</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default Mail;
